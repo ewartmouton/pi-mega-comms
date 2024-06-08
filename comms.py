@@ -10,8 +10,8 @@ def test():
 
 # Serial setup
 ser = serial.Serial(
-    port='/dev/ttyAMA0', # Replace with your serial port
-    baudrate=9600,
+    port='COM5', # Replace with your serial port
+    baudrate=115200,
     timeout=1
 )
 
@@ -20,8 +20,8 @@ def read_from_arduino():
     # Read a sequence of bytes from Arduino
     try:
         if ser.in_waiting > 0:
-            received_data = ser.read(38) # Adjust byte count as needed
-            data_tuple = struct.unpack('<19H', received_data)
+            received_data = ser.read(40) # Adjust byte count as needed
+            data_tuple = struct.unpack('<20H', received_data)
 
             rx_data = {
                 'RX_SEQ_NUMBER': data_tuple[0],
@@ -64,14 +64,14 @@ def send_to_arduino(tx_seq_number, set_tube_press):
 def main():
     while True:
         # Example sending data to Arduino
-        send_to_arduino(1, 100) # Replace with dynamic data as needed
+        #send_to_arduino(1, 100) # Replace with dynamic data as needed
 
         # Read data from Arduino
         arduino_data = read_from_arduino()
         if arduino_data is not None:
-            print("Received data from Arduino:", arduino_data)
+            print(arduino_data)
 
-        sleep(1) # Delay for a second
+        sleep(0.5)
 
 if __name__ == "__main__":
     main()
